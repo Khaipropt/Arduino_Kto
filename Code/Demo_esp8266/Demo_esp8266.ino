@@ -92,7 +92,7 @@ if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || se
       Serial.println("REASON: " + fbdo.errorReason());
     }
     // get 
-    if(Firebase.RTDB.getInt(&fbdo, "/test/data"))
-      Serial.println(fbdo.intData());
+    if(Firebase.RTDB.getString(&fbdo, "/test/data"))
+      Serial.println(fbdo.stringData());
   }
 }
