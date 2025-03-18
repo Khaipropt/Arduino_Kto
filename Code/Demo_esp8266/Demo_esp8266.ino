@@ -69,7 +69,7 @@ void setup(){
 void loop(){
 if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)){
     sendDataPrevMillis = millis();
-    // Write an Int number on the database path test/int
+    // Write an Int number on the database path test/int  
     if (Firebase.RTDB.setInt(&fbdo, "test/int", count)){
       Serial.println("PASSED");
       Serial.println("PATH: " + fbdo.dataPath());
@@ -79,7 +79,7 @@ if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || se
       Serial.println("FAILED");
       Serial.println("REASON: " + fbdo.errorReason());
     }
-    count++;
+    count+=3;
     
     // Write an Float number on the database path test/float
     if (Firebase.RTDB.setFloat(&fbdo, "test/float", 0.01 + random(0,100))){
@@ -91,5 +91,8 @@ if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || se
       Serial.println("FAILED");
       Serial.println("REASON: " + fbdo.errorReason());
     }
+    // get 
+    if(Firebase.RTDB.getInt(&fbdo, "/test/data"))
+      Serial.println(fbdo.intData());
   }
 }
