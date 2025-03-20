@@ -2,7 +2,7 @@ import cv2
 import serial
 from cvzone.HandTrackingModule import HandDetector
 
-port = serial.Serial("COM3",9600)
+# port = serial.Serial("COM3",9600)
 
 detector = HandDetector(detectionCon = 0.75, maxHands = 2)
 
@@ -15,25 +15,26 @@ while True:
     if hands:
         hand1 = hands[0]
         finger1=detector.fingersUp(hand1)
-        if len(hands) == 2:
-            hand2 = hands[1]
-            finger2 = detector.fingersUp(hand2)
-            totalfinger1= finger1.count(1)
-            totalfinger2 = finger2.count(1)
-            print(finger1,finger2)
+        
+        totalfinger1= finger1.count(1)
             
-            if totalfinger1 & totalfinger2 == 5:
-                port.write('1'.encode()) #send 1
-                print("BOTH BULD ON")
-            elif totalfinger1==5:
-                port.write('2'.encode())
-                print("LEFT BULD ON")
-            elif totalfinger2==5:
-                port.write('3'.encode())
-                print("RIGHT BULD ON")
-            else:
-                port.write('4'.encode())
-                print("BOTH BULD ON")
+        print(totalfinger1)
+            
+        # if totalfinger1 == 1:
+        #     port.write('1'.encode()) #send 1
+        #     print("1 BULD ON")
+        # elif totalfinger1==2:
+        #     port.write('2'.encode())
+        #     print("2 BULD ON")
+        # elif totalfinger1==3:
+        #     port.write('3'.encode())
+        #     print("3 BULD ON")
+        # elif totalfinger1==4:
+        #     port.write('4'.encode())
+        #     print("4 BULD ON")
+        # else:
+        #     port.write('5'.encode())
+        #     print("0 BULD ON")
             
     cv2.imshow("HAND",img)
     if(cv2.waitKey(1) & 0xFF == ord('c')):
