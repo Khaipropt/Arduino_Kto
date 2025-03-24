@@ -21,6 +21,9 @@
 // Insert RTDB URLefine the RTDB URL */
 #define DATABASE_URL "https://espfirebasedemo-k04-default-rtdb.asia-southeast1.firebasedatabase.app" 
 
+#define relay_1  D0
+bool check = 0;
+
 //Define Firebase Data object
 FirebaseData fbdo;
 
@@ -64,6 +67,7 @@ void setup(){
   
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
+  pinMode(relay_1, OUTPUT);
 }
 
 void loop(){
@@ -94,5 +98,18 @@ if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || se
     // get 
     if(Firebase.RTDB.getString(&fbdo, "/test/data"))
       Serial.println(fbdo.stringData());
+    if(Firebase.RTDB.getBool(&fbdo, "/test/controller"))
+      {
+        Serial.println(fbdo.boolData());
+        check = fbdo.boolData();
+      }
+    if(check == 1){
+    digitalWrite(relay_1, HIGH);
+    Serial.println("1");
+    }
+    else {
+    digitalWrite(relay_1, LOW);
+    Serial.println("0");
+    }
   }
 }
